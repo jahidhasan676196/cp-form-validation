@@ -6,15 +6,36 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import Root from './Component/Layout/Root.jsx';
+import Home from './Component/Home.jsx';
+import Login from './Component/Login.jsx';
+import Register from './Component/Register.jsx';
+import AuthContext from './Component/Layout/AuthContext/AuthContext.jsx';
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <div>Hello world!</div>,
+    element: <Root></Root>,
+    children:[
+      {
+        path:"/",
+        element:<Home></Home>
+      },
+      {
+        path:"/login",
+        element:<Login></Login>
+      },
+      {
+        path:"/register",
+        element:<Register></Register>
+      }
+    ]
   },
 ]);
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-     <RouterProvider router={router} />
+     <AuthContext>
+        <RouterProvider router={router} />
+     </AuthContext>
   </StrictMode>,
 )
