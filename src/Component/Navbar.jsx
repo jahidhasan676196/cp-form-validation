@@ -1,12 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { NavLink } from 'react-router-dom';
+import { FormContext } from './Layout/AuthContext/AuthContext';
 
 const Navbar = () => {
+  const {userR,setUser, userSignOut}=useContext(FormContext)
     const navlinks=<>
     <li><NavLink to='/'>Home</NavLink></li>
     <li><NavLink to='/login'>Login</NavLink></li>
     <li><NavLink to='/register'>Register</NavLink></li>
     </>
+    const handleSignOut=()=>{
+      userSignOut()
+      setUser('')
+    }
     return (
         <div className="navbar bg-base-100">
         <div className="navbar-start">
@@ -39,7 +45,12 @@ const Navbar = () => {
           </ul>
         </div>
         <div className="navbar-end">
-          <a className="btn">Button</a>
+          {
+            userR&&<>
+            <p>{userR.email}</p>
+            <button onClick={handleSignOut} className='btn'>sign out</button>
+            </>
+          }
         </div>
       </div>
     );

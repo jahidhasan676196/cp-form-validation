@@ -1,17 +1,28 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { FormContext } from './Layout/AuthContext/AuthContext';
+import { Link } from 'react-router-dom';
 
 const Login = () => {
-    const {userSignIn}=useContext(FormContext)
+    const {userSignIn,setUser}=useContext(FormContext)
+    const [errorMassage,setErrorMassage]=useState('')
     const handleLogin=(e)=>{
         e.preventDefault()
         const email =e.target.email.value
         const password=e.target.password.value
         console.log(email,password);
 
+        setErrorMassage('')
+        if(password.length<6){
+          setErrorMassage('password must be 6 character')
+        }
+
         userSignIn(email,password)
         .then(result=>{
+          setUser(result.user)
             console.log(result.user);
+        })
+        .catch(error=>{
+          setErrorMassage(error.massage)
         })
     }
     return (
@@ -45,6 +56,10 @@ const Login = () => {
                 <button className="btn btn-primary">Login</button>
               </div>
             </form>
+            <p className='m-5'>create Account go to <Link to='/register'><button className="btn">register</button></Link></p>
+              {
+                errorMassage &&<span className='text-red-600 m-5 mb-6'>{errorMassage}</span>
+              }
           </div>
         </div>
       </div>
